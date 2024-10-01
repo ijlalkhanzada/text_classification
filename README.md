@@ -37,8 +37,8 @@
 <h2>How to Run the API</h2>
 <ol>
     <li><strong>Clone the repository</strong>:
-        <pre><code>git clone https://github.com/your-username/text-classification-fastapi.git
-cd text-classification-fastapi</code></pre>
+        <pre><code>git clone https://github.com/ijlalkhanzada/text_classification.git
+cd text_classification</code></pre>
     </li>
     <li><strong>Run the API</strong> in a Python environment or a Jupyter Notebook:
         <pre><code>uvicorn main:app --reload</code></pre>
