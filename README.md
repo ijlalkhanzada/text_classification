@@ -3,70 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FastAPI Sentiment Analysis API</title>
+    <title>FastAPI Text Classification and Sentiment Analysis API</title>
 </head>
 <body>
 
-<h1>FastAPI Sentiment Analysis API</h1>
+<h1>FastAPI Text Classification and Sentiment Analysis API</h1>
 
-<p>This project provides a simple API for sentiment analysis using FastAPI and Hugging Face's <code>transformers</code> library. The API allows users to classify text sentiment through an HTTP endpoint.</p>
+<p>This project provides a comprehensive <strong>text classification</strong> and <strong>sentiment analysis</strong> API using <strong>FastAPI</strong> and <strong>Hugging Face's transformers</strong> library, featuring pre-trained models like <strong>DistilBERT</strong>. The API allows users to classify text and determine its sentiment (e.g., positive, negative, neutral) through HTTP endpoints.</p>
 
-<h2>Features</h2>
+<h2>Key Features</h2>
 <ul>
-    <li><strong>Text Sentiment Classification</strong>: The API accepts text input and returns the sentiment (positive, negative, etc.) along with the confidence score.</li>
-    <li><strong>CORS Support</strong>: Cross-Origin Resource Sharing (CORS) is enabled, allowing access from any origin.</li>
-    <li><strong>Asynchronous Handling</strong>: The server is designed to handle multiple requests concurrently.</li>
-    <li><strong>Model Used</strong>: The project leverages Hugging Face's pre-trained models for sentiment analysis (you can customize the model if needed).</li>
+    <li><strong>Text Classification</strong>: The API classifies input text into predefined categories (sentiment analysis, news categories, etc.).</li>
+    <li><strong>Sentiment Analysis</strong>: It analyzes input text to determine the sentiment as positive, negative, or neutral, and provides a confidence score.</li>
+    <li><strong>CORS Enabled</strong>: The API is accessible from any origin due to CORS support.</li>
+    <li><strong>Asynchronous Processing</strong>: It handles multiple requests concurrently for efficient performance.</li>
+    <li><strong>Pre-trained Models</strong>: Supports various Hugging Face pre-trained models such as <code>distilbert-base-uncased</code>.</li>
 </ul>
 
 <h2>Requirements</h2>
-<p>To run the API locally, install the following libraries:</p>
-<ul>
-    <li><code>fastapi</code>: The web framework used for creating the API.</li>
-    <li><code>uvicorn</code>: A lightweight ASGI server used to run FastAPI.</li>
-    <li><code>transformers</code>: Hugging Face's library for pre-trained NLP models.</li>
-    <li><code>torch</code>: Required for running models like BERT.</li>
-    <li><code>nest_asyncio</code>: To handle event loop issues in Jupyter environments.</li>
-</ul>
-
-<p>Install the dependencies by running:</p>
+<p>To set up and run the API locally, install the following dependencies:</p>
 <pre><code>pip install fastapi uvicorn transformers torch nest_asyncio</code></pre>
 
-<h2>How to Run</h2>
-<ol>
-    <li>Clone the repository:
-        <pre><code>git clone https://github.com/your-username/fastapi-sentiment-analysis.git
-cd fastapi-sentiment-analysis</code></pre>
-    </li>
-    <li>Run the Python script in a Jupyter notebook or a standard Python environment.</li>
-    <li>Once the server starts, it will be accessible at <code>http://0.0.0.0:8000</code>.</li>
-</ol>
-
-<h2>Usage</h2>
-<p>To classify the sentiment of a given text, send a <code>GET</code> request to the <code>/classify/{text}</code> endpoint.</p>
-
-<p>Example request:</p>
-<pre><code>http://0.0.0.0:8000/classify/I love this product!</code></pre>
-
-<p>Example response:</p>
-<pre><code>{
-  "label": "POSITIVE",
-  "score": 0.9998
-}</code></pre>
-
-<h2>Customization</h2>
+<h3>Dependencies Overview</h3>
 <ul>
-    <li><strong>Changing the Model</strong>: You can modify the model used by changing the <code>pipeline()</code> call in the script. For example, if you want to use a different task like text classification, you can adjust the pipeline as needed:
-        <pre><code>classifier = pipeline('text-classification')</code></pre>
-    </li>
-    <li><strong>Port Change</strong>: You can change the server port by modifying the <code>uvicorn.run()</code> parameters in the <code>run_server</code> function.</li>
+    <li><code>FastAPI</code>: Web framework for building APIs.</li>
+    <li><code>Uvicorn</code>: ASGI server to run the FastAPI app.</li>
+    <li><code>Transformers</code>: Hugging Face's library for NLP tasks and pre-trained models.</li>
+    <li><code>Torch</code>: Required for running models like DistilBERT.</li>
+    <li><code>Nest Asyncio</code>: Used to handle event loops in Jupyter environments.</li>
 </ul>
 
-<h2>Running on Jupyter</h2>
-<p>If you're running this API inside a Jupyter Notebook, the <code>nest_asyncio</code> library is used to avoid issues with event loops. It allows you to run the server without encountering conflicts.</p>
+<h2>How to Run the API</h2>
+<ol>
+    <li><strong>Clone the repository</strong>:
+        <pre><code>git clone https://github.com/your-username/text-classification-fastapi.git
+cd text-classification-fastapi</code></pre>
+    </li>
+    <li><strong>Run the API</strong> in a Python environment or a Jupyter Notebook:
+        <pre><code>uvicorn main:app --reload</code></pre>
+        If running in a Jupyter Notebook, use <code>nest_asyncio</code> to avoid event loop conflicts:
+        <pre><code>import nest_asyncio
+nest_asyncio.apply()</code></pre>
+    </li>
+    <li>Access the API at <code>http://0.0.0.0:8000</code>.</li>
+</ol>
+
+<h2>API Endpoints</h2>
+
+<h3>1. Sentiment Analysis (<code>/classify/{text}</code>)</h3>
+<ul>
+    <li><strong>Method</strong>: <code>GET</code></li>
+    <li><strong>Description</strong>: Takes an input string and classifies the sentiment of the text.</li>
+    <li><strong>Response</strong>:
+        <ul>
+            <li><code>category</code>: The predicted category (e.g., POSITIVE, NEGATIVE, NEUTRAL).</li>
+            <li><code>confidence</code>: The confidence score for the classification.</li>
+        </ul>
+    </li>
+</ul>
+
+<h4>Example Request</h4>
+<pre><code>GET http://0.0.0.0:8000/classify/I love this product!</code></pre>
+
+<h4>Example Response</h4>
+<pre><code>{
+  "category": "POSITIVE",
+  "confidence": 0.9998,
+  "message": "The model is highly confident that the input text belongs to the category 'POSITIVE', with a confidence score of 0.9998."
+}</code></pre>
+
+<h2>Customization Options</h2>
+<ul>
+    <li><strong>Model Selection</strong>: Change the pre-trained model for text classification by updating the <code>pipeline()</code> call in the Python script:
+        <pre><code>classifier = pipeline('text-classification', model='your-preferred-model')</code></pre>
+    </li>
+    <li><strong>Port Configuration</strong>: Modify the port on which the FastAPI server runs by changing the <code>uvicorn.run()</code> function:
+        <pre><code>uvicorn.run(app, host="0.0.0.0", port=your-port)</code></pre>
+    </li>
+</ul>
+
+<h2>Example HTML Frontend</h2>
+<p>If you want to create a simple HTML frontend to interact with the API, here is a basic example:</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Text Classification Demo&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Text Classification API Demo&lt;/h1&gt;
+    &lt;input type="text" id="inputText" placeholder="Enter text"&gt;
+    &lt;button onclick="classifyText()"&gt;Classify&lt;/button&gt;
+    &lt;p id="output"&gt;&lt;/p&gt;
+
+    &lt;script&gt;
+        async function classifyText() {
+            const text = document.getElementById('inputText').value;
+            const response = await fetch(`http://localhost:8000/classify/${encodeURIComponent(text)}`);
+            const data = await response.json();
+            document.getElementById('output').textContent = `Category: ${data.category}, Confidence: ${data.confidence}`;
+        }
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
 
 <h2>License</h2>
-<p>This project is licensed under the MIT License. See the <code>LICENSE</code> file for details.</p>
+<p>This project is licensed under the MIT License. See the <code>LICENSE</code> file for more details.</p>
 
 </body>
 </html>
