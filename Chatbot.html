@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Classification Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 50px; }
+        .chat-box { max-width: 600px; margin: auto; }
+        .input { width: 100%; padding: 10px; margin-bottom: 10px; }
+        .button { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; }
+        .button:hover { background-color: #218838; }
+        .output { margin-top: 20px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9; }
+    </style>
+</head>
+<body>
+
+<div class="chat-box">
+    <h1>Text Classification Chatbot</h1>
+    <input type="text" id="text_input" class="input" placeholder="Type your text here...">
+    <button class="button" onclick="sendText()">Classify</button>
+    <div id="response" class="output"></div>
+</div>
+
+<script>
+    function sendText() {
+        const text = document.getElementById("text_input").value;
+        fetch(`http://127.0.0.1:8000/classify/${encodeURIComponent(text)}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("response").innerHTML = "Label: " + data.label + ", Score: " + data.score.toFixed(2);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+</script>
+
+</body>
+</html>
+
