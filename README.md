@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>FastAPI Text Classification and Sentiment Analysis API</title>
-=======
->>>>>>> 318bf74ddc58d7ce88d26b4299d082ab66634d1b
+
+
 </head>
 <body>
 
